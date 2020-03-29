@@ -16,30 +16,35 @@ def countwords(request):
     # define punctuation
     punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     text_without_punc = ""
-    for char in input_text:
-        if char not in punctuations:
-            text_without_punc = text_without_punc+char
 
-    word_list = text_without_punc.split()
+    if input_text != "":
+        for char in input_text:
+            if char not in punctuations:
+                text_without_punc = text_without_punc+char
 
-    # make all lower case
-    converted_list = [x.lower() for x in word_list]
-    number_of_words = len(word_list)
+        word_list = text_without_punc.split()
 
-    word_counter_dict = {}
-    for word in converted_list:
-        if word in word_counter_dict:
-            word_counter_dict[word] += 1
-        else:
-            word_counter_dict[word] = 1
+        # make all lower case
+        converted_list = [x.lower() for x in word_list]
+        number_of_words = len(word_list)
 
-    #  getting maximum appeared words.
-    max_word_dict = {}
-    max_value = max(word_counter_dict.values())
-    for keys, values in word_counter_dict.items():
-        if values == max_value:
-            #print(keys)
-            max_word_dict[keys] = values
-    sorted_max_word_list = sorted(max_word_dict.items())
-    sorted_word_list = sorted(word_counter_dict.items())
-    return render(request, 'count.html', {'input_text':input_text, 'total_words':number_of_words, 'max_words':sorted_max_word_list,'word_count':sorted_word_list})
+        word_counter_dict = {}
+        for word in converted_list:
+            if word in word_counter_dict:
+                word_counter_dict[word] += 1
+            else:
+                word_counter_dict[word] = 1
+
+        #  getting maximum appeared words.
+        max_word_dict = {}
+        max_value = max(word_counter_dict.values())
+        for keys, values in word_counter_dict.items():
+            if values == max_value:
+                #print(keys)
+                max_word_dict[keys] = values
+        sorted_max_word_list = sorted(max_word_dict.items())
+        sorted_word_list = sorted(word_counter_dict.items())
+        return render(request, 'count.html', {'input_text':input_text, 'total_words':number_of_words, 'max_words':sorted_max_word_list,'word_count':sorted_word_list})
+
+    else:
+        return render(request, "home.html")
